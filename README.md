@@ -9,4 +9,4 @@ Based on the priorities, the readers-writers problem may have different variatio
 
 So, we see that a solution to either problem leads to starvation. In the first case the writers may starve while in the second case, the readers may starve. There is another variation to the problem which solves the starvation issues of the previous problems. It is called the **third readers-writers problem**. 
 
->An approach to the starve-free readers-writers problem or the third readers-writers problem is enclosed alongwith. It encompasses the use of semaphores in the solution to problem. To ensure that there is no starvation of processes, the semaphores have to preserve the *FIFO* ordering when they allow the processes to request for the use of shared resource.
+An approach to the starve-free readers-writers problem or the third readers-writers problem is enclosed alongwith. It encompasses the use of semaphores in the solution to problem. To ensure that there is no starvation of processes, the semaphores have to preserve the *FIFO* ordering when they allow the processes to request for the use of shared resource.
