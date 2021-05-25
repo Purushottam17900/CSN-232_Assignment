@@ -1,12 +1,81 @@
-int read_count = 0;                     //number of readers accessing the resource currently
-semaphore rw_mutex = 1;                 //semaphore to control the access of readers and writers to the resource
-semaphore mutex = 1,                    //semaphore to control the access of the variable read_count
-semaphore request_order = 1;            //semaphore to preserve the ordering of requests to handle starvation
+
+```cpp
+struct process{
+    int *value;
+    process *next;                  //address of the next block              
+}
+
+struct FIFOqueue{
+    process *head, *tail;
+
+    /*Function to add a new process to the back of the queue*/
+    void push(int *x){
+        process *newprocess = new process();
+        newprocess->value = x;
+        if(tail == NULL){
+            head = newprocess;
+            tail = newprocess;
+        }
+        else{
+            tail.next = newprocess;
+            tail = newprocess;
+        }
+    } 
+
+    /*Function to remove the first process from the queue*/
+    int* pop(){
+        if(head == NULL){
+            return -1;
+        }
+        int *x = head->value;
+        if(head == tail){
+            head = NULL;
+            tail = NULL;
+        }
+        else{
+            head = head->next;
+        }
+        return x;
+    }
+}
+
+struct semaphore{
+    int value = 1;                  //semaphore value initialised to 1
+    FIFOqueue *queue = new FIFOqueue();
+}
+
+void wait(semaphore *s, int *pid){
+    s->value = s->value - 1;
+    if(s->value < 0){
+        s->queue.push(pid);
+        sleepProcess(pid);          //Using a function call, the process sleeps
+    }
+}
+
+void signal(semaphore *s){
+    s->value = s->value + 1;
+    if(s->value <= 0){
+        int *pid = s->queue.pop();
+        wakeProcess(pid);           //Using a function call, the process is awakened
+    }
+}
+
+```
+## VARIABLES
+
+We declare the following variables which will be used in the reader's and writer's code.
+
+```cpp
+int read_count = 0;                 //number of readers accessing the resource currently
+semaphore rw_mutex;                 //semaphore to control the access of readers and writers to the resource
+semaphore mutex,                    //semaphore to control the access of the variable read_count
+semaphore request_order;            //semaphore to preserve the ordering of requests to handle starvation
+```
 
 
-//READER PROCESS CODE
+## READER PROCESS CODE
+```cpp
 reader(){
-    while(true){
         <ENTRY SECTION>
         wait(request_order);            //The reader waits for its turn to access the resource
         wait(mutex);                    //The reader requests for permission to access the variable read_count
@@ -26,10 +95,11 @@ reader(){
             signal(rw_mutex);           //  the writers are now free to access the resource                
         }
         signal(mutex);                  //The read_count variable is freed to be used by other readers
-    }
 }
+```
 
-//WRITER PROCESS CODE
+## WRITER PROCESS CODE
+```cpp
 writer(){
     while(true){
         <ENTRY SECTION>
@@ -43,3 +113,4 @@ writer(){
         signal(rw_mutex);               //It releases the resource for the use of next process(reader/writer)
     }
 }
+```
