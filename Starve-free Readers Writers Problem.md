@@ -101,7 +101,6 @@ reader(){
 ## WRITER PROCESS CODE
 ```cpp
 writer(){
-    while(true){
         <ENTRY SECTION>
         wait(request_order);            //The writer waits for its turn to access the resource
         wait(rw_mutex);                 //The resource is now to be engaged by a writer so the other processes(readers+writers) are blocked to use
@@ -111,6 +110,5 @@ writer(){
 
         <EXIT SECTION>
         signal(rw_mutex);               //It releases the resource for the use of next process(reader/writer)
-    }
 }
 ```
