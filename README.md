@@ -3,9 +3,9 @@ Suppose a resource such as a database is to be shared among several concurrent p
 
 Now as the processes are concurrent, more than one process may want to access the database at a time. If the processes trying to access are all readers, then there will not be any problem. But if there is a writer and some other process (maybe a reader or a writer) accessing the database simultaneously, desired results are not obtained. This synchronization problem is referred to as the **readers-writers problem**.
 
-Based on the priorities, the readers-writers problem may have different variations. The first one called the *first readers–writers problem* gives priority to the readers. It ensures that any reader may use the shared resource as long as there is no writer using the resource. This may lead to starvation of the writer. The second one called the *second readers–writers problem* gives priority to the writers. It ensures that a writer may perform its operation as soon as possible regardless of the readers waiting to use the shared resource. This may lead to starvation of the reader.
+Based on the priorities, the readers-writers problem may have different variations. The first one called the *first readers–writers problem* gives priority to the readers. It ensures that any reader may use the shared resource as long as there is no writer using the resource. *This may lead to starvation of the writer*. The second one called the *second readers–writers problem* gives priority to the writers. It ensures that a writer may perform its operation as soon as possible regardless of the readers waiting to use the shared resource. *This may lead to starvation of the reader*.
 
-## Starvation - Free Readers – Writers Problem
+## Starve - Free Readers – Writers Problem
 
 So, we see that a solution to either problem leads to starvation. In the first case the writers may starve while in the second case, the readers may starve. There is another variation to the problem which solves the starvation issues of the previous problems. It is called the **third readers-writers problem**. 
 
