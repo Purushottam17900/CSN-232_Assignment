@@ -45,7 +45,7 @@ struct semaphore{
 }
 
 void wait(semaphore *s, int *pid){
-    s->value = s->value - 1;
+    s->value = s->value - 1;        //semaphore value decremented
     if(s->value < 0){
         s->queue.push(pid);
         sleepProcess(pid);          //Using a function call, the process sleeps
@@ -53,7 +53,7 @@ void wait(semaphore *s, int *pid){
 }
 
 void signal(semaphore *s){
-    s->value = s->value + 1;
+    s->value = s->value + 1;        //semaphore value incremented
     if(s->value <= 0){
         int *pid = s->queue.pop();
         wakeProcess(pid);           //Using a function call, the process is awakened
